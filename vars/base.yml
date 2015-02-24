@@ -1,0 +1,14 @@
+---
+
+git_repo: https://github.com/ngrinkevich/social-network-starter-kit
+project_name: socialnetworkstarter
+project_path: "/home/{{ project_name }}"
+virtualenv_path: "/home/{{ project_name}}_env"
+
+server_admin: "admin@example.com"
+wsgi_path: "/home/{{ project_name }}/app/"
+wsgi_file: "wsgi_prod.py"
+
+
+
+

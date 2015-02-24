@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ServerAdmin {{ server_admin }}
+    ServerName {{ media_host }}
+    DocumentRoot {{ media_host_dir }}
+
+    <Directory {{ media_host_dir }}>
+        Header set Access-Control-Allow-Origin "*"
+        Options -Indexes
+        AllowOverride None
+    </Directory>
+
+</VirtualHost>

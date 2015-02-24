@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerAdmin {{ server_admin }}
+    ServerName {{ app_host }}
+    WSGIScriptAlias / {{ wsgi_path }}{{ wsgi_file }}
+
+    WSGIPassAuthorization On
+
+    <Directory {{ project_path }}/>
+        <Files {{ wsgi_file }}>
+            Require all granted
+        </Files>
+    </Directory>
+
+</VirtualHost>

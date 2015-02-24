@@ -1,0 +1,73 @@
+---
+
+- name: ensure latest postgres & postgis packages are latest
+  sudo: yes
+  action: apt pkg={{item}} update_cache=yes state=latest
+  with_items:
+    - postgresql-server-dev-9.3
+    - postgresql-contrib-9.3
+    - postgresql-9.3-postgis-2.1
+    - python-psycopg2 # not sure whats it for, postgis ?
+
+
+- name: ensure postgresql server is running
+  sudo: yes
+  action: service name=postgresql state=started
+
+
+#Create a template to be used on creating GIS-enabled databases
+- name: ensure postgis_template database exists
+  sudo: yes
+  action: postgresql_db db=postgis_template state=present
+  register: createdb_postgis_template
+  sudo_user: postgres
+
+- name: make postgis_template a template
+  sudo: yes
+  action: command psql -d postgis_template -c "UPDATE pg_database SET datistemplate=true WHERE datname='postgis_template';"
+  sudo_user: postgres
+
+
+- name: run the postgis SQL scripts
+  sudo: yes
+  action: command psql -d postgis_template -f {{item}}
+  with_items:
+    - /usr/share/postgresql/9.3/contrib/postgis-2.1/postgis.sql
+    - /usr/share/postgresql/9.3/contrib/postgis-2.1/spatial_ref_sys.sql
+  sudo_user: postgres
+
+
+
+  #Set template permissions to gisgroup
+- name: create user
+  sudo: yes
+  action: command createuser -R -S -L -D -I gisgroup
+  sudo_user: postgres
+  ignore_errors: True
+
+# - name: create user
+#   action: command createuser -i -l -S -R -d {{db_user}}
+#   sudo_user: postgres
+#   ignore_errors: True
+
+- name: ensure named databases exist
+  sudo: yes
+  action: command createdb -T postgis_template {{db_name}}
+  sudo_user: postgres
+  ignore_errors: True
+
+- name: ensure user {{db_user}} has access to those databases
+  sudo: yes
+  action: postgresql_user db={{db_name}} user={{db_user}} password={{db_password}} priv=ALL state=present
+  sudo_user: postgres
+  ignore_errors: True
+
+#grant gisgroup to user
+- postgresql_privs: >
+    db=postgres
+    type=group
+    objs=gisgroup
+    roles={{db_user}}
+  
+  sudo: yes
+  sudo_user: postgres

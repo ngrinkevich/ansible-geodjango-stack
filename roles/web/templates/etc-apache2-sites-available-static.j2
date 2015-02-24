@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+    ServerAdmin {{ server_admin }}
+    ServerName {{ static_host }}
+    DocumentRoot {{ static_host_dir }}
+
+    <Directory {{ static_host_dir }}>
+        Options -Indexes
+        AllowOverride None
+    </Directory>
+
+</VirtualHost>

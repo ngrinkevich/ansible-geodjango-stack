@@ -1,0 +1,19 @@
+---
+
+# Apache
+domain: "example.dev"
+app_host: "{{ domain }}"
+static_host: "static.{{ domain }}"
+media_host: "media.{{ domain }}"
+app_host_dir: "/var/www/{{ app_host }}"
+static_host_dir: "/var/www/{{ static_host }}"
+media_host_dir: "/var/www/{{ media_host }}"
+
+# DB
+db_name: "demo_db"
+db_user: "demo_user"
+db_password: demo_pass
+
+# App settings
+django_settings_file: app.settings.production
+

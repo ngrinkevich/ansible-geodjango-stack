@@ -1,0 +1,7 @@
+---
+
+- name: Create Virtualenv directory
+  file: state=directory path={{ virtualenv_path }}
+
+- name: Install required Python packages
+  pip: requirements={{ project_path }}/requirements.txt virtualenv={{ virtualenv_path }}

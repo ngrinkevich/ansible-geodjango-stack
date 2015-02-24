@@ -1,0 +1,12 @@
+---
+
+- include: fetch_codebase.yml
+
+- include: setup_virtualenv.yml
+
+- include: setup_django.yml
+
+- include: setup_apache2.yml
+
+
+
