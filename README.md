@@ -19,12 +19,15 @@ Ansible Playbook to deploy a minimal [GeoDjango](https://docs.djangoproject.com/
 
 This will deploy a simple djagno app [social-network-starter-kit](https://github.com/ngrinkevich/social-network-starter-kit). Go to the project root and run:
 
-```vagrant up
+```
+vagrant up
 ```
 
 Add this to your **host** file
 
-```192.168.99.99 example.dev static.example.dev media.example.dev```
+```
+192.168.99.99 example.dev static.example.dev media.example.dev
+```
 
 Access the app: [http://example.dev](example.dev)
 
