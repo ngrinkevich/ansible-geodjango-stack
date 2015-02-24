@@ -1,7 +1,7 @@
 ---
 
 - name: Install required packages.
-  apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
+  apt: name={{ item }} update_cache=yes force=yes state=installed
   with_items:
     - git
     - apache2
